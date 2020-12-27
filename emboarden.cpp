@@ -534,6 +534,13 @@ int main(int argc, char **argv) {
     }
   );
 
+  string color_filename;
+  program_opt p_c(
+    "-c", "Dump debugging image with color-coded components.",
+    "TODO", ".png filename",
+    [&](string filename) { color_filename = filename; }
+  );
+
   string output_filename;
   program_opt p_o(
     "-o", "Set output filename.", "Set output filename.", "filename",
@@ -602,9 +609,8 @@ int main(int argc, char **argv) {
     cout << "Found " << components << " glyphs." << endl;
 
   // DEBUG: write image colored by connected component
-  #if 0
-  write_img("test1.png", img, width);
-  #endif
+  if (color_filename != "")
+    write_img(color_filename.c_str(), img, width);
 
   // 3. Generate polygons with cut-ins
   polygen(img, components, width);
