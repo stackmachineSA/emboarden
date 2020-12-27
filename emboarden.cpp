@@ -293,14 +293,16 @@ struct svg {
   int width, height;
 };
 
-void polygen(vector<int> &img, int components, int width) {
+void polygen(
+  vector<int> &img, int components, int width,
+  string debug_svg_filename
+) {
   int height = img.size()/width;
 
   svg *debug_svg = NULL;
 
-  #if 0
-  debug_svg = new svg("debug.svg", width, img.size()/width);
-  #endif
+  if (debug_svg_filename != "")
+    debug_svg = new svg(debug_svg_filename.c_str(), width, img.size()/width);
   
   for (unsigned c = 0; c < components; ++c) {
     vector<int> hcount((height+1)*width, 0),
@@ -544,9 +546,7 @@ int main(int argc, char **argv) {
   string output_filename;
   program_opt p_o(
     "-o", "Set output filename.", "Set output filename.", "filename",
-    [&](string filename) {
-      output_filename = filename;
-    }
+    [&](string filename) { output_filename = filename; }
   );
 
   string drl_filename;
@@ -561,6 +561,12 @@ int main(int argc, char **argv) {
   program_opt p_v(
     "-v", "Enable verbose output.", "TODO",
     [](){ verbose = true; }
+  );
+
+  string debug_svg_filename;
+  program_opt p_svg(
+    "-svg", "Set output .svg filename.", "TODO", ".svg filename",
+    [&](string filename) { debug_svg_filename = filename; }
   );
   
   string input_filename = program_opt::parse(argc, argv);
@@ -613,7 +619,7 @@ int main(int argc, char **argv) {
     write_img(color_filename.c_str(), img, width);
 
   // 3. Generate polygons with cut-ins
-  polygen(img, components, width);
+  polygen(img, components, width, debug_svg_filename);
 
   // 4. Write gerber file for layer
   gerber g(gfile);
