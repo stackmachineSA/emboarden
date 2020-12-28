@@ -17,6 +17,7 @@
 #include <libpng/png.h>
 
 #include "image-io.h"
+#include "svg.h"
 
 using namespace std;
 using namespace libpcb;
@@ -265,33 +266,6 @@ void trace_polygon(
   pcb_poly = NULL;
   simplify_poly(pts, width+1, cut);
 }
-
-struct svg {
-  svg(string filename, int width, int height):
-    out(filename), width(width), height(height)
-  {
-    out << "<svg height=\"" << height << "\" width=\"" << width << "\">"
-        << endl;
-  }
-
-  ~svg() {
-    out << "</svg>" << endl;
-  }
-
-  void write_polygon(vector<int> &pts) {
-    out << "  <polygon points=\"";
-    for (unsigned i = 0; i < pts.size(); ++i) {
-      int x = pts[i];
-
-      out << x%(width+1) << ',' << x/(width+1);
-      if (i != pts.size()-1) out << ' ';
-    }
-    out << "\" style=\"fill:magenta;stroke:black;stroke-width:1\" />" << endl;
-  }
-  
-  ofstream out;
-  int width, height;
-};
 
 void polygen(
   vector<int> &img, int components, int width,
