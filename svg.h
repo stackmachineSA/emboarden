@@ -1,3 +1,6 @@
+#ifndef SVG_H
+#define SVG_H
+
 #include <fstream>
 #include <string>
 #include <vector>
@@ -15,3 +18,5 @@ namespace emboarden {
     int width, height;
   };
 }
+
+#endif
