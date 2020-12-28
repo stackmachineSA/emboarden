@@ -42,7 +42,7 @@ static void filter_poly(vector<int> &pts, int width, set<int> exclude) {
     bool include = true;//(i % interval == 0);
     int this_x = pts[i]%width, this_y = pts[i]/width;
     if (exclude.count(pts[i]) ||
-	sqrt(pow(this_x - prev_x, 2) + pow(this_y - prev_y, 2)) > THRESH)
+      sqrt(pow(this_x - prev_x, 2) + pow(this_y - prev_y, 2)) > THRESH)
     {
       prev_x = this_x;
       prev_y = this_y;
@@ -207,11 +207,11 @@ void emboarden::polygen(
     for (unsigned i = 0; i < img.size(); ++i) {
       int y = i/width, x = i%width;
       if (img[i] == c) {
-	++hcount[y*width + x];
+        ++hcount[y*width + x];
         --hcount[(y + 1)*(width) + x];
         ++vcount[y*(width+1) + x];
-	--vcount[y*(width+1) + x + 1];
-       }
+        --vcount[y*(width+1) + x + 1];
+      }
     }
 
     int hole_count = 0;
@@ -222,27 +222,27 @@ void emboarden::polygen(
 
       if (hcount[i]) {
         stack<int> s;
-	s.push(i);
-	while (!s.empty()) {
-	  int x(s.top()%width), y(s.top()/width);
-	  s.pop();
-	  if (visited.count(y*width + x)) continue;
-	  visited.insert(y*width + x);
+        s.push(i);
+        while (!s.empty()) {
+          int x(s.top()%width), y(s.top()/width);
+          s.pop();
+          if (visited.count(y*width + x)) continue;
+          visited.insert(y*width + x);
 
           if (x < width - 1 && hcount[y*width + x])
-	    s.push(y*width + x + 1);
-	  if (x > 0 && hcount[y*width + x - 1])
-	    s.push(y*width + x - 1);
-	  if (y < height && vcount[y*(width + 1) + x])
-	    s.push((y + 1)*width + x);
-	  if (y > 0 && vcount[(y - 1)*(width + 1) + x])
-	    s.push((y - 1)*width + x);
-	}
+            s.push(y*width + x + 1);
+          if (x > 0 && hcount[y*width + x - 1])
+            s.push(y*width + x - 1);
+          if (y < height && vcount[y*(width + 1) + x])
+            s.push((y + 1)*width + x);
+          if (y > 0 && vcount[(y - 1)*(width + 1) + x])
+            s.push((y - 1)*width + x);
+        }
 
         if (outer_shell) {
           outer_shell = false;
         } else {
-	  ++hole_count;
+          ++hole_count;
           if (verbose)
             cout << "New hole at (" << i%width << ',' << i/width << ')'
                  << endl;
@@ -252,7 +252,7 @@ void emboarden::polygen(
             hcount[j] = 0x80000000;
             ++count;
           }
-	  if (verbose)
+          if (verbose)
             cout << "  " << count << " cut-in pixels." << endl;
         }
       }
