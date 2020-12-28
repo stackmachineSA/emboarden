@@ -15,6 +15,7 @@
 #include "geometry.h"
 #include "drl.h"
 #include "svg.h"
+#include "opt.h"
 
 using namespace std;
 using namespace libpcb;
@@ -22,8 +23,6 @@ using namespace emboarden;
 
 double emboarden::scale = 1.0/1000.0;
 int emboarden::simplify_passes = 10;
-
-extern bool verbose; // TODO: verbose variable in header, maybe in opts
 
 static plane *pcb_poly;
 

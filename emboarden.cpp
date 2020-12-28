@@ -16,22 +16,20 @@ using namespace std;
 using namespace libpcb;
 using namespace emboarden;
 
-bool verbose = false;
-
 int main(int argc, char **argv) {
   program_opt::usage_args = "[options ...] input_file.png";
 
   program_opt p_h(
     "-h", "Display help message.",
-    "TODO",
+    "Display a help message.",
     [](){
       program_opt::print_help_msg();
     }
   );
 
   program_opt p_simp(
-    "-simp", "Number of polygon simplification passes.",
-    "TODO", "passes",
+    "-simp", "Number of polygon simplification passes (default 10).",
+    "Number of polygon simplification passes (default 10).", "passes",
     [](string passes_str) {
       istringstream iss(passes_str);
       iss >> simplify_passes;
@@ -52,7 +50,7 @@ int main(int argc, char **argv) {
   string color_filename;
   program_opt p_c(
     "-c", "Dump debugging image with color-coded components.",
-    "TODO", ".png filename",
+    "Dump debugging image with color-coded components.", ".png filename",
     [&](string filename) { color_filename = filename; }
   );
 
@@ -72,13 +70,15 @@ int main(int argc, char **argv) {
   );
 
   program_opt p_v(
-    "-v", "Enable verbose output.", "TODO",
+    "-v", "Enable verbose output.",
+    "Enable printing verbose output.",
     [](){ verbose = true; }
   );
 
   string debug_svg_filename;
   program_opt p_svg(
-    "-svg", "Set output .svg filename.", "TODO", ".svg filename",
+    "-svg", "Set output .svg filename.",
+    "Set filename for debugging .svg file.", ".svg filename",
     [&](string filename) { debug_svg_filename = filename; }
   );
   

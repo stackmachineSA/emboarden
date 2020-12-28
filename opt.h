@@ -6,6 +6,8 @@
 #include <functional>
 
 namespace emboarden {
+  extern bool verbose;
+
   struct program_opt {
     program_opt(
       std::string opt, std::string short_desc, std::string long_desc,

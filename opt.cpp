@@ -10,6 +10,8 @@
 using namespace std;
 
 namespace emboarden {
+  bool verbose = false;
+
   program_opt::program_opt(
     string opt, string short_desc, string long_desc, function<void()> action
   ): opt(opt), short_desc(short_desc), long_desc(long_desc), has_arg(false),
