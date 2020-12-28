@@ -71,7 +71,7 @@ static void filter_poly(vector<int> &pts, int width, set<int> exclude) {
 
 void emboarden::simplify_poly(vector<int> &pts, int width, set<int> exclude) {
   filter_poly(pts, width, exclude);
-  
+
   vector<int> out;
 
   double x_max = 0, x_min = 1e100, y_max = 0, y_min = 1e100,
@@ -109,8 +109,8 @@ void emboarden::simplify_poly(vector<int> &pts, int width, set<int> exclude) {
       int in = (i + 1)%pts.size();
       double x1 = pts[ip]%width, x2 = pts[i]%width, x3 = pts[in]%width,
              y1 = pts[ip]/width, y2 = pts[i]/width, y3 = pts[in]/width;
-      double h = abs(cos(atan2(x3 - x1, y3 - y1) - atan2(x2 - x1, y2 - y1)) *
-                 sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
+      double h = abs(sin(atan2(x3 - x1, y3 - y1) - atan2(x2 - x1, y2 - y1)) *
+        sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
       double limit = epsilon*(p + 1)/double(simplify_passes);
       if (h <= limit && !exclude.count(pts[i])){
         kill.insert(i);
@@ -142,17 +142,19 @@ void emboarden::trace_polygon(
   // Find the starting point, then trace the polygon.
   for (unsigned i = 0; i < (width+1)*(height+1); ++i) {
     int x(i%(width+1)), y(i/(width+1));
+    if (x == width) continue;
+
     if (hcount[y*width + x]) {
       int i0 = i;
       do {
         pts.push_back(i);
-        int t((y-1)*(width+1) + x), b(y*(width+1) + x),
+        int t((y-1)*(width + 1) + x), b(y*(width + 1) + x),
             l(y*width + x - 1), r(y*width + x),
             li(y*(width+1) + x - 1), ri(y*(width+1) + x + 1),
             ti((y - 1)*(width+1) + x), bi((y + 1)*(width+1) + x);
 
         // Cut-ins are always highest priority
-        if (x < width-1 && !cut.count(i) && hcount[r] == 0x80000000) {
+        if (x < width - 1 && !cut.count(i) && hcount[r] == 0x80000000) {
           cut.insert(i);
           i = ri;
           prev_dir = 1;
@@ -230,7 +232,7 @@ void emboarden::polygen(
 	  if (visited.count(y*width + x)) continue;
 	  visited.insert(y*width + x);
 
-          if (x < width-1 && hcount[y*width + x])
+          if (x < width - 1 && hcount[y*width + x])
 	    s.push(y*width + x + 1);
 	  if (x > 0 && hcount[y*width + x - 1])
 	    s.push(y*width + x - 1);
