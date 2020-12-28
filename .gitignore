@@ -2,3 +2,6 @@
 *.o
 emboarden
 *.png
+*.grb
+*.drl
+*.svg
