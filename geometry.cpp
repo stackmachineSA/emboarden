@@ -6,9 +6,7 @@
 #include <vector>
 #include <set>
 #include <stack>
-#include <functional>
 
-#include <cstring>
 #include <cmath>
 
 #include <libpcb/poly.h>

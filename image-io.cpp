@@ -4,21 +4,13 @@
 
 #include <map>
 #include <vector>
-#include <set>
-#include <stack>
-
 #include <cstring>
-#include <cmath>
-
-#include <libpcb/poly.h>
-#include <libpcb/basic.h>
 
 #include <libpng/png.h>
 
 #include "image-io.h"
 
 using namespace std;
-using namespace libpcb;
 
 const double SCALE = 1.0/1000.0;
 
