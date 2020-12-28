@@ -15,14 +15,26 @@ option is also provided to produce a drill file, where all polygons in the input
 Compilation
 -----------
 
-TODO
+The build process uses a single makefile in GNU make format. Development is
+done on the version of GCC shipping with Debian Testing, but emboarden and its dependencies are expected to build on nearly anything implementing C++.
+
 
 Installation
 ------------
 
-TODO
+The makefile does not include an installation target. On Unix-like systems, the
+"emboarden" executable can be manually copied to a location in the path, e.g.:
+
+  $ cp emboarden /usr/local/bin
 
 Use
 ---
 
-TODO
+The input to emboarden is a PNG image with white pixels representing blank
+space and black pixels representing the presence of a layer. Despite the simple
+2-color format, the .png file is expected to be a full RGB image. The most
+common way to invoke emboarden is simply "emboarden myimage.png" where
+myimage.png is any properly-formatted .png image. The default scale is one
+thousandth of an inch per pixel, but this can be changed with the "-scale"
+option. An exhaustive list of command line options and their parameters can be
+found by running "emboarden -h".
