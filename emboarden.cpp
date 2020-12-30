@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <sstream>
 
 #include <libpcb/basic.h>
 
@@ -87,7 +88,8 @@ int main(int argc, char **argv) {
   ofstream gfile;
   if (output_filename == "") {
     size_t pos = input_filename.find_first_of(".");
-    string stem = (pos == string::npos) ? stem : input_filename.substr(0, pos);
+    string stem = (pos == string::npos) ?
+      input_filename : input_filename.substr(0, pos);
     gfile.open(stem + ".grb");
     if (!gfile) {
       cout << "Could not open default output file \"" << stem << ".grb\"."

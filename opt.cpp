@@ -76,7 +76,8 @@ namespace emboarden {
               error_opt = argv[i];
               break;
             } else {
-              opts[argv[i]]->action_arg(argv[++i]);
+              opts[argv[i]]->action_arg(argv[i + 1]);
+	      ++i;
             }
           } else {
             opts[argv[i]]->action();
