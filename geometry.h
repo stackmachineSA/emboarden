@@ -6,7 +6,7 @@
 #include <string>
 
 namespace emboarden {
-  extern double scale;
+  extern double scale, epsilon;
   extern int simplify_passes;
 
   void simplify_poly(std::vector<int> &pts, int width, std::set<int> exclude);

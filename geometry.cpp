@@ -21,6 +21,7 @@ using namespace std;
 using namespace libpcb;
 using namespace emboarden;
 
+double emboarden::epsilon = 1.0;
 double emboarden::scale = 1.0/1000.0;
 int emboarden::simplify_passes = 10;
 
@@ -96,8 +97,6 @@ void emboarden::simplify_poly(vector<int> &pts, int width, set<int> exclude) {
   add_hole(x_sum, y_sum, 2*r_sum, scale);
   
   double girth = sqrt(pow(x_max - x_min, 2) + pow(y_max - y_min, 2));
-
-  double epsilon = (2*girth - 2)/girth;
 
   for (unsigned p = 0; p < simplify_passes; ++p) {
     set<int> kill;

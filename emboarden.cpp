@@ -37,6 +37,15 @@ int main(int argc, char **argv) {
     }
   );
 
+  program_opt p_thresh(
+    "-thresh", "Error cut-off for simplification pass (default 1.0)",
+    "Maximum number of pixels error in simplification.", "threshold",
+    [](string thresh_str) {
+      istringstream iss(thresh_str);
+      iss >> epsilon;
+    }
+  );
+
   program_opt p_scale(
     "-scale", "Set scale in pixels/inch.",
     "Set scale in pixels-per-inch.", "pixels/in",
