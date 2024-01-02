@@ -40,7 +40,8 @@ void emboarden::final_drill(ostream &out) {
       double y = drill_holes[i + 1];
       double d = drill_holes[i + 2];
       if (t.first != int(d*1000)) continue;
-      out << 'X' << x << 'Y' << y << endl;
+      out << 'X' << fixed << setprecision(4) << x
+          << 'Y' << fixed << setprecision(4) << y << endl;
     }
   }
 
