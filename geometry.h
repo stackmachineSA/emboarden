@@ -8,6 +8,7 @@
 namespace emboarden {
   extern double scale, epsilon;
   extern int simplify_passes;
+  extern bool gen_paths;
 
   void simplify_poly(std::vector<int> &pts, int width, std::set<int> exclude);
 

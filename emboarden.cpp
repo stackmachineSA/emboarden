@@ -91,7 +91,13 @@ int main(int argc, char **argv) {
     "Set filename for debugging .svg file.", ".svg filename",
     [&](string filename) { debug_svg_filename = filename; }
   );
-  
+
+  program_opt p_paths(
+    "-p", "Generate paths in output gerber.",
+    "Generate closed paths, not planes, in generated Gerber.",
+    [](){ gen_paths = true; }
+  );
+
   string input_filename = program_opt::parse(argc, argv);
 
   ofstream gfile;

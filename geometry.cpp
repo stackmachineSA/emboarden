@@ -10,6 +10,7 @@
 #include <cmath>
 
 #include <libpcb/poly.h>
+#include <libpcb/track.h>
 #include <libpcb/basic.h>
 
 #include "geometry.h"
@@ -24,8 +25,13 @@ using namespace emboarden;
 double emboarden::epsilon = 1.0;
 double emboarden::scale = 1.0/1000.0;
 int emboarden::simplify_passes = 10;
+bool emboarden::gen_paths = false;
 
-static plane *pcb_poly;
+static plane *pcb_poly = NULL;
+static track *pcb_track = NULL;
+static double track_x0, track_y0;
+
+const double TRACK_WIDTH = 0.006;
 
 static void filter_poly(vector<int> &pts, int width, set<int> exclude) {
   vector<int> out;
@@ -123,9 +129,20 @@ void emboarden::simplify_poly(vector<int> &pts, int width, set<int> exclude) {
 
   for (auto &p : pts) {
     int x = p % width, y = p / width;
-    if (!pcb_poly) pcb_poly = new plane(LAYER_CU0);
-    pcb_poly->add_point(point(x*scale, -y*scale));
+    if (gen_paths) {
+      if (!pcb_track) {
+	track_x0 = x*scale;
+	track_y0 = -y*scale;
+        pcb_track = new track(0, TRACK_WIDTH);
+      }
+      pcb_track->add_point(x*scale, -y*scale);
+    } else {
+      if (!pcb_poly) pcb_poly = new plane(LAYER_CU0);
+      pcb_poly->add_point(x*scale, -y*scale);
+    }
   }
+
+  if (pcb_track) pcb_track->add_point(track_x0, track_y0);
 }
 
 void emboarden::trace_polygon(
@@ -184,6 +201,8 @@ void emboarden::trace_polygon(
   }
 
   pcb_poly = NULL;
+  pcb_track = NULL;
+
   simplify_poly(pts, width+1, cut);
 }
 
@@ -248,7 +267,7 @@ void emboarden::polygen(
           // Insert the cut-in
           int count = 0;
           for (int j = i-1; j == i-1 || !visited.count(j + 1); --j) {
-            hcount[j] = 0x80000000;
+            if (!gen_paths) hcount[j] = 0x80000000;
             ++count;
           }
           if (verbose)
